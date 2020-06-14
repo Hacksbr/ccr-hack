@@ -1,0 +1,3 @@
+[0614/164543.123:ERROR:file_io_win.cc(161)] CreateFile C:\Users\malfo\AppData\Local\Temp\puppeteer_dev_chrome_profile-rGkOiy\Crashpad\settings.dat: O sistema não pode encontrar o caminho especificado. (0x3)
+[0614/164543.132:ERROR:file_io_win.cc(170)] CreateFile C:\Users\malfo\AppData\Local\Temp\puppeteer_dev_chrome_profile-rGkOiy\Crashpad\reports\a75de0c1-c878-462c-95da-67963edb0d91.dmp: O sistema não pode encontrar o caminho especificado. (0x3)
+[0614/164543.132:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed

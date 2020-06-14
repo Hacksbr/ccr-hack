@@ -1,0 +1,18 @@
+
+-- Boas vindas e apresentar as opções abaixo.
+-- Muito obrigado
+
+A ideia é 
+1 - Rotas
+2 - Saúde
+3 - higienização ( ou oq vc tiver ideia)
+
+1.1 Qual rota você deseja?
+
+1.2 Retorna o maps com a rota selecionada.
+
+2.1 Dor 
+2.2 Escolha a região do corpo que está com a dor. Retorna imagem do corpo humano com regiões numeradas
+2.3 (escolhe um número do corpo humano) ( no exemplo é o número 3 a garganta).
+
+3. Você escolheu higienização, informe sua região para que possamos mostrar os melhores estabelecimentos da região...
