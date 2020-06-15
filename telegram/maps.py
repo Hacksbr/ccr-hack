@@ -4,7 +4,7 @@ from datetime import datetime
 from googleplaces import GooglePlaces, types, lang
 import json
 
-with open ('config.json') as f:
+with open ('key.json') as f:
     input_keys = json.loads(f.read())
     TOKEN = input_keys['auth']['Token']
     API_KEY = input_keys['auth']['API_Key']
@@ -12,22 +12,18 @@ gmaps = googlemaps.Client(key=API_KEY)
 google_places = GooglePlaces(API_KEY)
 
 
-# Returns the average of a value
 def average(l):
     return sum(l) / len(l)
 
-# Removes duplicates from lists
 def deduplicate(l):
     return list(set(l))
 
-# Finds the indices of matching locations in results and stored locations
 def find_matching_indices(a, b):
     for i, x in enumerate(a):
         for j, y in enumerate(b):
             if x == y:
                 yield j
 
-# Finds the coordinates of the user's current location 
 def find_origin_coordinates(users_address):
     geocode_result = gmaps.geocode(users_address)
     lat_origin = geocode_result[0]['geometry']['location']['lat']
@@ -35,8 +31,6 @@ def find_origin_coordinates(users_address):
     origin_coordinates = (lat_origin, lng_origin)
     return origin_coordinates
 
-# Formats query results for comparison, format is (name + address)
-# google_locations_ids has the list of the query result from Google Maps API
 def format_query_results(query_result):
     google_locations_ids = []
     for i in range (len(query_result.places)):
@@ -45,8 +39,6 @@ def format_query_results(query_result):
         google_locations_ids.append(location_id)
     return google_locations_ids
 
-# Finds the average of previous stored ratings for a specific location 
-# averages_of_ratings has the average ratings of all stored locations on the drive 
 def find_averages_of_ratings(indicies, google_locations_ids, stored_ratings, chat_id):
     averages_of_ratings = []
     for i in range(len(indicies)):
@@ -59,12 +51,10 @@ def find_averages_of_ratings(indicies, google_locations_ids, stored_ratings, cha
 def get_nearest_location(users_address, radius_in_metres, chat_id, stored_ratings, location_type):
     query_result = google_places.nearby_search(location=users_address, radius=int(radius_in_metres), types=[location_type])
     origin_coordinates = find_origin_coordinates(users_address)
-
-    # Initializing variables
-    distances = [] # Distances of Google API results from the origin
-    destinations = [] # A list of Google API results coordinates 
-    google_locations_ids = []# A list of locaations from the query result of the Google API
-    averages_of_ratings = []# A of the average ratings of all stored locations on the drive 
+    distances = [] 
+    destinations = [] 
+    google_locations_ids = []
+    averages_of_ratings = []
 
     stored_locations_ids = list(stored_ratings[chat_id])
    
@@ -84,12 +74,8 @@ def get_nearest_location(users_address, radius_in_metres, chat_id, stored_rating
         distance_details = gmaps.distance_matrix(origin_coordinates,destination_coordinates)
         distance = distance_details['rows'][0]['elements'][0]['distance']['value']
         distances.append(distance)
-
-    # Adjust distances according to previously stored ratings 
     for i in range(len(indicies)):
         distances[indicies[i]] = distances[indicies[i]] * (5 / averages_of_ratings[i])
-    
-    # Find shortest distance from the origin 
     min_distance = distances.index(min(distances))
     query_result.places[min_distance].get_details()
     places_dict = {
